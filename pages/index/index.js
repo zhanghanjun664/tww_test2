@@ -76,7 +76,8 @@ Page({
     canIUse: wx.canIUse('button.open-type.contact'),
     items:"2014-01",
     items2:"",
-    canvasW:"750px",
+    canvasW:750,
+    canvasH:200,
     canvasL:20
   },
   ceshiFN:function(){
@@ -230,9 +231,9 @@ Page({
     })
   },
   onLoad: function () {
-    console.log(wx.canIUse("openSetting"));
+    console.log(this.data.canvasW);
     
-
+    var that = this;
     drawCanvas({
       id: "firstCanvas",
       box: [
@@ -256,7 +257,9 @@ Page({
       lineWidth: 2,
       strokeStyle:"red",
       r:4,
-      fillStyle:"blue"
+      fillStyle:"blue",
+      canvasW: that.data.canvasW,
+      canvasH:that.data.canvasH
     })
     // 设置描边颜色
     // context.setStrokeStyle("#7cb5ec");
@@ -339,36 +342,36 @@ Page({
 
 function drawCanvas(config){
   var ctx = wx.createCanvasContext(config.id);
-  var padding = 50;
+  var padding = config.padding||50;
   var xstandard = 50;
   var ystandard = 30;
   // 排序
   config.box.sort(function(a,b){
     return a.x - b.x
   })
+  // 描点
+  for(var i = 0;i<config.box.length;i++){
+    ctx.beginPath();
+    ctx.arc(config.box[i].x + padding, config.canvasH - config.box[i].y - padding,config.r,0,Math.PI*2);
+    ctx.setFillStyle(config.fillStyle);
+    ctx.fill();
+  }
   // 画线
-  ctx.moveTo(config.box[0].x + padding, 200 - config.box[0].y - padding);
+  ctx.moveTo(config.box[0].x + padding, config.canvasH - config.box[0].y - padding);
   for(var i = 1;i<config.box.length;i++){
-    ctx.lineTo(config.box[i].x + padding, 200 - config.box[i].y - padding);
+    ctx.lineTo(config.box[i].x + padding, config.canvasH - config.box[i].y - padding);
   }
   ctx.setLineWidth(config.lineWidth);
   ctx.setStrokeStyle(config.strokeStyle);
   ctx.stroke();
-  // 描点
-  for(var i = 0;i<config.box.length;i++){
-    ctx.beginPath();
-    ctx.arc(config.box[i].x + padding, 200 - config.box[i].y - padding,config.r,0,Math.PI*2);
-    ctx.setFillStyle(config.fillStyle);
-    ctx.fill();
-  }
   // 清除超出部分
-  ctx.clearRect(0,0,padding,200);
-  ctx.clearRect(padding,200-padding,750,padding);
+  ctx.clearRect(0,0,padding,config.canvasH);
+  ctx.clearRect(padding,config.canvasH-padding,config.canvasW,padding);
   // 坐标
   ctx.beginPath();
-  ctx.moveTo(0, 200 - padding);
-  ctx.lineTo(750, 200 - padding);
-  ctx.moveTo(padding, 200 - padding);
+  ctx.moveTo(0, config.canvasH - padding);
+  ctx.lineTo(config.canvasW, config.canvasH - padding);
+  ctx.moveTo(padding, config.canvasH - padding);
   ctx.lineTo(padding,0);
   ctx.setStrokeStyle("#c4c4c4");
   ctx.setLineWidth(1);
@@ -377,8 +380,8 @@ function drawCanvas(config){
   // 刻度
   ctx.beginPath();
   ctx.setFontSize(14);
-  var xlength = Math.ceil(750 / xstandard) - 1;
-  var ylength = Math.ceil((200 - ystandard) / ystandard) - 1;
+  var xlength = Math.ceil(config.canvasW / xstandard) - 1;
+  var ylength = Math.ceil((config.canvasH - ystandard) / ystandard) - 1;
   ctx.setTextAlign("center");
   ctx.setFillStyle("#acacac");
   for (var i = 1; i < xlength;i++){
@@ -393,20 +396,23 @@ function drawCanvas(config){
   ctx.setLineWidth(1);
   ctx.setStrokeStyle("#000000");
   for(var i=0;i<50;i++){
-    // ctx.moveTo(padding+20*i,200 - 90);
-    // ctx.lineTo(padding+20*i+16,200 - 90);
+    ctx.moveTo(show("x", 20 * i), show("y", 90));
+    ctx.lineTo(show("x", 20 * i + 16), show("y", 90));
 
-    ctx.moveTo(padding + 20 * i, 200 - 140 - padding);
-    ctx.lineTo(padding + 20 * i + 16, 200 - 140 - padding);
+    ctx.moveTo(show("x", 20 * i ), show("y", 140));
+    ctx.lineTo(show("x", 20 * i + 16), show("y",140));
   }
   ctx.stroke();
 
   ctx.draw();
-  // function show(type,num){
-  //   if( type == "x"){
-  //     return 
-  //   }
-  // }
+  function show(type,num){
+    if( type == "x"){
+      return num+padding
+    }
+    if(type == "y"){
+      return config.canvasH - padding -num
+    }
+  }
 
 }
 

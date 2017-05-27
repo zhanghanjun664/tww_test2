@@ -1,7 +1,7 @@
 <!--index.wxml-->
 <view class="container">
   <scroll-view scroll-x="true" scroll-left="canvasL" bindscroll="handleScroll">
-      <canvas canvas-id="firstCanvas" class="canvas2" style="width:{{canvasW}}"/>
+      <canvas canvas-id="firstCanvas" class="canvas2" style="width:{{canvasW}}px;height:{{canvasH}}px"/>
   </scroll-view>
   <!--<canvas canvas-id="acanvas" class="acanvas" />-->
   <button open-type="share"></button>
