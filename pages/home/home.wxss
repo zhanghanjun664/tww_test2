@@ -1,0 +1,9 @@
+/* pages/home/home.wxss */
+.canvas{
+  width: 300px;
+  height:250px;
+  transform: scale(1.2);
+}
+.aa{
+  width:375rpx
+}

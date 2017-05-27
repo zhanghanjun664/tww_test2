@@ -1,0 +1,78 @@
+<!--index.wxml-->
+<view class="container">
+  <scroll-view scroll-x="true" scroll-left="canvasL" bindscroll="handleScroll">
+      <canvas canvas-id="firstCanvas" class="canvas2" style="width:{{canvasW}}"/>
+  </scroll-view>
+  <!--<canvas canvas-id="acanvas" class="acanvas" />-->
+  <button open-type="share"></button>
+  <button bindtap="ceshiFN">测试按钮</button>
+  <switch wx:for="{{objectArray}}" wx:key="unique" style="display: block;"> {{item.id}} </switch>
+  <button bindtap="switch"> Switch </button>
+  <button bindtap="addToFront"> Add to the front </button>
+
+  <switch wx:for="{{numberArray}}" wx:key="*this" style="display: block;"> {{item}} </switch>
+  <button bindtap="addNumberToFront"> Add to the front </button>
+  <view bindtap="bindViewTap" class="userinfo">
+    <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+    <text class="userinfo-nickname" bindtap="zhuanfa">{{userInfo.nickName}}</text>
+  </view>
+  <view class="usermotto">
+    <div class="user-motto">{{motto}}</div>
+  </view>
+  <!--<image src="img/tang.png" style="height:360px"></image>-->
+  <view class="section">
+    <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}">
+      <view class="picker">
+        当前选择：{{array[index]}}
+      </view>
+    </picker>
+    <picker mode="date" value='{{items}}' start="2000-1-1" end="2020-12-31" bindchange="changeTime">
+      <view class="">日期{{items}}</view>
+    </picker>
+    <picker mode="time" value='{{items2}}' start="11:00" end="18:00" bindchange="changeTime2">
+      <view class="">时间{{items2}}</view>
+    </picker>
+
+  </view>
+
+  <button wx:if="{{canIUse}}" open-type="contact"><image src="{{userInfo.avatarUrl}}" style="width:18px;height:18px;vertical-align:middle;"></image>客服消息</button>
+
+  <view wx:for="{{[1, 2, 3]}}" wx:for-item="i">
+    <view wx:for="{{[1, 2, 3]}}" wx:for-item="j">
+      <view wx:if="{{i <= j}}">
+        {{i}} * {{j}} = {{i * j}}
+      </view>
+    </view>
+  </view>
+
+
+  <!--slider-->
+  <view class="section section_gap" style="margin-top:20px">
+    <text class="section__title">设置left/right icon</text>
+    <view class="body-view">
+      <slider bindchange="slider1change" show-value max="200" step="2" color="red" value="" style="" />
+    </view>
+  </view>
+
+  <view class="section section_gap">
+    <text class="section__title">设置step</text>
+    <view class="body-view">
+      <slider bindchange="slider2change" step="5" />
+    </view>
+  </view>
+
+  <view class="section section_gap">
+    <text class="section__title">显示当前value</text>
+    <view class="body-view">
+      <slider bindchange="slider3change" show-value/>
+    </view>
+  </view>
+
+  <view class="section section_gap">
+    <text class="section__title">设置最小/最大值</text>
+    <view class="body-view">
+      <slider bindchange="slider4change" min="50" max="200" show-value/>
+    </view>
+  </view>
+
+</view>

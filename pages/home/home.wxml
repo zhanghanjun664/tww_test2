@@ -1,0 +1,13 @@
+<view class="container">
+  <view class="">canvas页！</view>
+  <canvas canvas-id="line" class="canvas"/>
+  <swiper indicator-dots="{{indicatorDots}}"
+  autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" class="aa" >
+    <block wx:for="{{imgUrls}}" wx:key="{{index}}">
+      <swiper-item>
+        <view class="">{{index}}</view>
+        <image src="{{item}}" class="slide-image" width="355" height="150"/>
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
